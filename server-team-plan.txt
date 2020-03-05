@@ -1,0 +1,11 @@
+server team:
+
+using express
+
+components:
+1. serve the webpage
+2. send data to webpage
+3. receive data from hardware
+4. store data on mongodb
+5. endpoint to connect configuration between webpage and hardware
+
