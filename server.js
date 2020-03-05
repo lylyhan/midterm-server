@@ -41,6 +41,9 @@ app.post("/api/sensorreading/",async (req, res) => {
   } else {
     //some collection under database
     const midtermCollection = await dbclient.collection("readings");
+
+    //!!!need to convert time to mongodb style!!! or maybe it's the same
+
     midtermCollection.insertOne({temp,humid,time});
     res.sendStatus(200);
   }

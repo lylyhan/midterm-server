@@ -9,3 +9,17 @@ components:
 4. store data on mongodb
 5. endpoint to connect configuration between webpage and hardware
 
+definition of endpoints:
+
+- for sensor:
+1. send data to this "/api/sensorreading/"
+2. send request for config to this "/api/getconfigs/" 
+
+
+- for web:
+1. fetch data of the filtered date "/api/data/:start/:end"
+2. send config to sensor "/api/configs/" 
+3. where all the data is "/api/data"
+
+
+ideal format of time string from web: "yyyy-mm-dd"
