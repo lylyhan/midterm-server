@@ -35,10 +35,10 @@ app.post("/api/sensorreading/",async (req, res) => {
     const body = req.body;
     //under change - json of specific readings 
     const temp = body.temp;
-    const date = body.date;
+    const time = new Date(body.time);
     const valid = body.valid;
 
-  if (!temp || !date || !valid) {
+  if (!temp || !time || !valid) {
     res.status(400).send("Missing some kind of reading");
   } else {
     //some collection under database
@@ -46,7 +46,7 @@ app.post("/api/sensorreading/",async (req, res) => {
 
     //!!!need to convert time to mongodb style!!! or maybe it's the same
 
-    midtermCollection.insertOne({temp,date,valid});
+    midtermCollection.insertOne({temp,time,valid});
     res.sendStatus(200);
   }
 });
@@ -71,11 +71,11 @@ app.get('/api/data/:start/:end', async (req, res)=>{
 
   const readingsCollection = await dbclient.collection("readings");
   //send comparison query to mongo and let it spit out the filtered array
-  const query = {time:{$gt: new Date(start),$lt: new Date(end)}};//setting the range
 
+  const query = {time:{$gt: new Date(start),$lt: new Date(end)}};//setting the range
  
-  res.json(await readingsCollection.find(query).toArray(function(err, result) {
-    if (err) throw err;}));
+  res.json(await readingsCollection.find(query).toArray());
+  console.log(query);
  
 });
 
