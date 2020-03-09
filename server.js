@@ -12,7 +12,6 @@ const mongo = require("mongodb").MongoClient;
 
 
 let dbclient;
-
 mongo.connect(mongouri,{
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -22,9 +21,12 @@ mongo.connect(mongouri,{
   const listener = app.listen(port, function () {
   console.log('Your app is listening on port ' + port);
   });
+});
 
 
-/*interactions*/
+
+
+//interactions
 
 //get data from senser & store data to mongodb ***the endpoint***
 
@@ -71,15 +73,11 @@ app.get('/api/data/:start/:end', async (req, res)=>{
   //send comparison query to mongo and let it spit out the filtered array
   const query = {time:{$gt: new Date(start),$lt: new Date(end)}};//setting the range
 
-  const filtered_array = readingsCollection.find(query).toArray(function(err, result) {
-    if (err) throw err;});
-}); 
-
-  res.json(await filtered_array);
+ 
+  res.json(await readingsCollection.find(query).toArray(function(err, result) {
+    if (err) throw err;}));
  
 });
-
-
 
 
 
@@ -93,7 +91,7 @@ app.post("/api/configs/",async (req, res) => {
     const high = body.high;
     const hue = body.hue;
 
-  if (!threshold1 || !threshold2 || !threshold3) {
+  if (!low || !high || !hue) {
     res.status(400).send("Missing some kind of config");
   } else {
     //some collection under database
@@ -112,16 +110,6 @@ app.get("/api/getconfig", async (_, res) => {
   const configs = configCollection.find({});
   res.json(await configs.toArray());
 });
-
-
-
-/* webpage */
-
-app.get("/", function(request, response) {
-  response.sendFile(__dirname + '/app/index.html');
-});
-
-
 
 
 
@@ -171,12 +159,4 @@ app.use(express.static('public'));
 app.get("/", function(request, response) {
   response.sendFile(__dirname + '/app/index.html');
 });
-
-// listen for requests :)
-const listener = app.listen(port, function () {
-  console.log('Your app is listening on port ' + port);
-});
-
-
-
 
