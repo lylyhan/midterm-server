@@ -33,10 +33,10 @@ app.post("/api/sensorreading/",async (req, res) => {
     const body = req.body;
     //under change - json of specific readings 
     const temp = body.temp;
-    const humid = body.humid;
-    const time = body.time;
+    const date = body.date;
+    const valid = body.valid;
 
-  if (!temp || !humid || !time) {
+  if (!temp || !date || !valid) {
     res.status(400).send("Missing some kind of reading");
   } else {
     //some collection under database
@@ -44,7 +44,7 @@ app.post("/api/sensorreading/",async (req, res) => {
 
     //!!!need to convert time to mongodb style!!! or maybe it's the same
 
-    midtermCollection.insertOne({temp,humid,time});
+    midtermCollection.insertOne({temp,date,valid});
     res.sendStatus(200);
   }
 });
@@ -67,7 +67,7 @@ app.get('/api/data/:start/:end', async (req, res)=>{
   const start = req.params.start;// what format is this start??
   const end = req.params.end;
 
-  const readingsCollection = await dbclient.collection("tweets");
+  const readingsCollection = await dbclient.collection("readings");
   //send comparison query to mongo and let it spit out the filtered array
   const query = {time:{$gt: new Date(start),$lt: new Date(end)}};//setting the range
 
@@ -89,16 +89,16 @@ app.post("/api/configs/",async (req, res) => {
   //receiving the request
     const body = req.body;
     //under change - json of specific readings 
-    const threshold1 = body.threshold1;
-    const threshold2 = body.threshold2;
-    const color = body.color;
+    const low = body.low;
+    const high = body.high;
+    const hue = body.hue;
 
   if (!threshold1 || !threshold2 || !threshold3) {
     res.status(400).send("Missing some kind of config");
   } else {
     //some collection under database
     const configCollection = await dbclient.collection("config");
-    configCollection.insertOne({threshold1,threshold2,color});
+    configCollection.insertOne({low,high,hue});
     res.sendStatus(200);
   }
 });
