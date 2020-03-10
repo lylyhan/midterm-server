@@ -35,7 +35,7 @@ app.post("/api/sensorreading/",async (req, res) => {
     const body = req.body;
     //under change - json of specific readings 
     const temp = body.temp;
-    const time = new Date(body.time);
+    const time = new Date(body.time).getTime();
     const valid = body.valid;
 
   if (!temp || !time || !valid) {
@@ -87,9 +87,9 @@ app.post("/api/configs/",async (req, res) => {
   //receiving the request
     const body = req.body;
     //under change - json of specific readings 
-    const low = body.low;
-    const high = body.high;
-    const hue = body.hue;
+    const low = parseInt(body.low);
+    const high = parseInt(body.high);
+    const hue = parseInt(body.hue);
 
   if (!low || !high || !hue) {
     res.status(400).send("Missing some kind of config");
