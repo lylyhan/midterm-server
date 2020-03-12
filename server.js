@@ -62,13 +62,15 @@ app.get("/api/data", async (_, res) => {
   res.json(await readings.toArray());
 });
 
-
+/*
 //filter that fetch data from a specific date
 app.get('/api/data/:start/:end', async (req, res)=>{
 
   const start = req.params.start;// what format is this start??
-  const end = req.params.end;
+  const end = req.params.end
 
+  //hourly, daily, weekly
+  //return in json, a list of readings in the last 24 hrs/1hr/week
   const readingsCollection = await dbclient.collection("readings");
   //send comparison query to mongo and let it spit out the filtered array
 
@@ -76,6 +78,27 @@ app.get('/api/data/:start/:end', async (req, res)=>{
  
   res.json(await readingsCollection.find(query).toArray());
   console.log(query);
+ 
+});
+*/
+app.get('/api/readings/hourly', async (req, res)=>{
+
+  //hourly, daily, weekly
+  //return in json, a list of readings in the last 24 hrs/1hr/week
+  res.json(await dbclient.getCollection("readings").find({"date":{$gt:new Date(Date.now() - 60*60 * 1000)}}));
+  //console.log(query);
+ 
+});
+
+app.get('/api/readings/daily', async (req, res)=>{
+
+  res.json(await dbclient.getCollection("readings").find({"date":{$gt:new Date(Date.now() - 24*60*60 * 1000)}}));
+ 
+});
+
+app.get('/api/readings/weekly', async (req, res)=>{
+
+  res.json(await dbclient.getCollection("readings").find({"date":{$gt:new Date(Date.now() - 7*24*60*60 * 1000)}}));
  
 });
 
