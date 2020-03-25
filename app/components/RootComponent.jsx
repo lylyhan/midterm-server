@@ -62,7 +62,7 @@ const RootComponent = function() {
 }
 
 module.exports = RootComponent;
-*/
+
 
 
 var React = require('react');
@@ -108,10 +108,12 @@ class RootComponent extends Component {
       <CanvasJSChart 
         options = {options} onRef={ref => this.chart = ref}
 			/>
-			{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
-		</div>
+			{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/ /*}
+		
+    </div>
 		);
 	}
 }
 
 module.exports = RootComponent;
+*/
