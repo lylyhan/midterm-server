@@ -33,7 +33,7 @@ class Config extends Component {
     }
 
     async componentDidMount() { //UseEffect Lifecycle Method
-        doFetchValues();
+        this.doFetchValues();
     }
 
     componentWillUnmount(){
@@ -57,18 +57,18 @@ class Config extends Component {
 	render() {
 		return (
 		<div>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={this.handleSubmit}>
             <label>
                 Low: 
-                <input type="number" value={this.state.low} onChange={updateLow}/>
+                <input type="number" value={this.state.low} onChange={this.updateLow}/>
             </label>
             <label>
                 High: 
-                <input type="number" value={this.state.high} onChange={updateHigh}/>
+                <input type="number" value={this.state.high} onChange={this.updateHigh}/>
             </label>
             <label>
                 Hue Color (0-360):
-                <input type="number" value= {this.state.hue} onChange={updateHue}/> 
+                <input type="number" value= {this.state.hue} onChange={this.updateHue}/> 
             </label>
             <input type="submit" value="Submit"/>
             <h4>Configs History</h4>
