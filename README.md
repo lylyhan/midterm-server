@@ -1,8 +1,15 @@
-Starter React App on Glitch
+Midterm Server team
 ===========================
+Members: Lily Han and Nart Varoqua
 
-This app is a very small scaffold to get you started using React and Webpack.
+## Description
 
-It's been copied by @starakaj for your enjoyment. You can find the original at https://glitch.com/~starter-react.
-
-This project relates to video 2 of 5 in the [React Starter Kit](https://glitch.com/react-starter-kit) video series.
+server.js:
+1. usage: host webpage, mongodb database, handle post and get requests from raspberry pi and webpage, 
+2. heroku link: https://midterm-for-all.herokuapp.com/ 
+3. endpoints: 
+  - post readings from sensors: /api/sensorreading/
+  - get readings collection: /api/data/
+  - get filtered readings: api/readings/hourly/ daily/ weekly
+  - post config from webpages: /api/configs/
+  - get config for sensors: /api/getconfig/
