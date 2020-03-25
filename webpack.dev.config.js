@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   mode: 'development',
   context: path.join(__dirname, './'),
-  entry: './src/index.js',
+  entry: './app/app.jsx',
   devtool: 'inline-source-map',
   output: {
     path: path.join(__dirname, 'public'),
@@ -16,14 +16,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.jsx?$/,
+        loader: 'jsx-loader',
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
-        },
-        include: path.join(__dirname, 'src'),
-      }
-    ]
+        include: path.join(__dirname, 'app'),
+      },
+    ],
   },
   devServer: {
     contentBase: path.join(__dirname, 'public'),
