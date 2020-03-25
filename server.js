@@ -38,8 +38,8 @@ app.post("/api/sensorreading/",async (req, res) => {
   //parsing the data
     const body = req.body;
     //under change - json of specific readings 
-    const temp = new Date(body.time).getTime();
-    const time = body.time;
+    const temp = body.temp;
+    const time = new Date(body.time).getTime();
     const valid = body.valid;
 
   if (!temp || !time || !valid) {
