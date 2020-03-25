@@ -6,6 +6,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 const moment = require("moment");
 
+
+const bodyParser=require("body-parser")
+app.use(bodyParser.json())
+
 //intializing mongodb
 const mongouri = process.env.MONGODB_URI || "mongodb://localhost:27017/midterm";
 const mongo = require("mongodb").MongoClient;
@@ -39,7 +43,7 @@ app.post("/api/sensorreading/",async (req, res) => {
     const valid = body.valid;
 
   if (!temp || !time || !valid) {
-    res.status(400).send("Missing some kind of reading");
+    res.status(400).send({message: "Missing some kind of reading"});
   } else {
     //some collection under database
     const midtermCollection = await dbclient.collection("readings");
@@ -47,7 +51,7 @@ app.post("/api/sensorreading/",async (req, res) => {
     //!!!need to convert time to mongodb style!!! or maybe it's the same
 
     midtermCollection.insertOne({temp,time,valid});
-    res.sendStatus(200);
+    res.sendStatus({message: "success"});
   }
 });
 
@@ -85,20 +89,20 @@ app.get('/api/readings/hourly', async (req, res)=>{
 
   //hourly, daily, weekly
   //return in json, a list of readings in the last 24 hrs/1hr/week
-  res.json(await dbclient.getCollection("readings").find({"date":{$gt:new Date(Date.now() - 60*60 * 1000)}}));
+  res.json(await dbclient.getCollection("readings").find({"time":{$gt:new Date(Date.now() - 60*60 * 1000)}}));
   //console.log(query);
  
 });
 
 app.get('/api/readings/daily', async (req, res)=>{
 
-  res.json(await dbclient.getCollection("readings").find({"date":{$gt:new Date(Date.now() - 24*60*60 * 1000)}}));
+  res.json(await dbclient.getCollection("readings").find({"time":{$gt:new Date(Date.now() - 24*60*60 * 1000)}}));
  
 });
 
 app.get('/api/readings/weekly', async (req, res)=>{
 
-  res.json(await dbclient.getCollection("readings").find({"date":{$gt:new Date(Date.now() - 7*24*60*60 * 1000)}}));
+  res.json(await dbclient.getCollection("readings").find({"time":{$gt:new Date(Date.now() - 7*24*60*60 * 1000)}}));
  
 });
 
@@ -110,9 +114,9 @@ app.post("/api/configs/",async (req, res) => {
   //receiving the request
     const body = req.body;
     //under change - json of specific readings 
-    const low = parseInt(body.low);
-    const high = parseInt(body.high);
-    const hue = parseInt(body.hue);
+    const low = body.low;
+    const high = body.high;
+    const hue = body.hue;
 
   if (!low || !high || !hue) {
     res.status(400).send("Missing some kind of config");
