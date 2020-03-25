@@ -89,8 +89,8 @@ app.get('/api/readings/hourly', async (req, res)=>{
 
   //hourly, daily, weekly
   //return in json, a list of readings in the last 24 hrs/1hr/week
-
-  res.json(await dbclient.collection("readings").find({"time":{$gt:new Date(Date.now() - 60*60 * 1000)}}));
+  const readingscollection = await dbclient.collection("readings");
+  res.json(readingscollection.find({"time":{$gt:new Date(Date.now() - 60*60 * 1000)}}));
 
 
   //console.log(query);
