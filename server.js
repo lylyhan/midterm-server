@@ -39,7 +39,7 @@ app.post("/api/sensorreading/",async (req, res) => {
     const body = req.body;
     //under change - json of specific readings 
     const temp = body.temp;
-    const time = new Date(body.time).toISOString();
+    const time = new Date(body.time);
     const valid = body.valid;
 
   if (!temp || !time || !valid) {
@@ -90,7 +90,7 @@ app.get('/api/readings/hourly', async (req, res)=>{
   //hourly, daily, weekly
   //return in json, a list of readings in the last 24 hrs/1hr/week
   //const readingscollection = await dbclient.collection("readings");
-  res.json(await dbclient.getCollection("readings").find({"time":{$gt:new Date(Date.now() - 60*60 * 1000)}}).toArray());
+  res.json(await dbclient.collection("readings").find({"time":{$gt:new Date(Date.now() - 60*60 * 1000)}}).toArray());
   //res.json({"time": new Date(Date.now() - 60*60 * 1000)});
 
   //console.log(query);
