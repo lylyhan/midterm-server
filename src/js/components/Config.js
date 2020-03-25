@@ -40,6 +40,9 @@ class Config extends Component {
     }
 
     asyncSubmit = async () => {
+        var low = this.state.low;
+        var high = this.state.high;
+        var hue = this.state.hue;
         const response = await fetch('/api/configs', { 
             method: 'POST',
             headers: {
@@ -50,7 +53,7 @@ class Config extends Component {
     }
 
     handleSubmit = (event) =>{
-        asyncSubmit();
+        this.asyncSubmit();
         event.preventDefault; //so it doesnt navigate to a new page
     }
     
