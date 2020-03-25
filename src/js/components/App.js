@@ -27,7 +27,7 @@ class App extends Component {
                         </Panel>
                     </PanelList>
                 </Tabs>
-                <div><Config onSent={doFetchValues}/></div>
+                <div><Config /></div>
             </div>
         );
     }
