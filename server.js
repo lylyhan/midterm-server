@@ -106,7 +106,7 @@ app.get('/api/readings/daily', async (req, res)=>{
 
 app.get('/api/readings/weekly', async (req, res)=>{
 
-  res.json(await dbclient.getCollection("readings").find({"time":{$gt:new Date(Date.now() - 7*24*60*60 * 1000)}}).toArray());
+  res.json(await dbclient.collection("readings").find({"time":{$gt:new Date(Date.now() - 7*24*60*60 * 1000)}}).toArray());
  
 });
 
