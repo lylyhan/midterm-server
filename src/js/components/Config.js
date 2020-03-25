@@ -1,30 +1,36 @@
 import React, { Component } from "react";
+// Don't delete note
 
 class Config extends Component {
     constructor(props) {
 		super(props);
-		this.state = {low: 10, high: 15, hue: 360};
+        this.state = {low: undefined, high: undefined, hue: undefined};
     }
 
-    doFetchValues = async () =>{
-        const response = await fetch("/api/configs"); //fetch
+    doFetchValues = async () =>{                          
+        const response = await fetch("/api/configs"); //Lily to confirm if this is the right path
         const data = await response.json();
-        this.setState(data);
+
+        //Validate
+        if (typeof(data.low) === "number" && typeof(data.high) === "number" && typeof(data.hue) === "number"){
+            this.setState(data);
+        }else{
+            console.log("not number for fetch data");
+        }
     }
 
     updateLow = (event) =>{
-        //valueUpdate();
-        this.setState({low: event.target.value});
+        const intLow = Number.parseFloat(event.target.value);
+        this.setState({low: intLow});
     }
     updateHigh = (event) =>{
-        //valueUpdate();
-        this.setState({high: event.target.value});
+        const intHigh = Number.parseFloat(event.target.value);
+        this.setState({high: intHigh});
     }
-    updateHue = (evemt) =>{
-        //valueUpdate();
-        this.setState({hue:event.target.value});
+    updateHue = (event) =>{
+        const intHue = Number.parseInt(event.target.value);
+        this.setState({hue: intHue});
     }
-
 
     async componentDidMount() { //UseEffect Lifecycle Method
         doFetchValues();
@@ -33,35 +39,19 @@ class Config extends Component {
     componentWillUnmount(){
     }
 
-    // valueUpdate(){
-    //     this.setState({
-    //         low: event.target.value, //not this.state.low
-    //         high: this.state.high,
-    //         hex: this.state.hue //hue
-    //     });
-    // }
-
     asyncSubmit = async () => {
-        const response = await fetch('/api/configs', { //configs
+        const response = await fetch('/api/configs', { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(({low, high, hue})),
         });
-        if (response.status === 200) {
-            this.setState({
-                low: "",
-                high: "",
-                hue: ""
-            });
-            if (props.onSent) props.onSent();
-        }
     }
 
     handleSubmit = (event) =>{
         asyncSubmit();
-        event.preventDefault;
+        event.preventDefault; //so it doesnt navigate to a new page
     }
     
 	render() {
@@ -81,10 +71,15 @@ class Config extends Component {
                 <input type="number" value= {this.state.hue} onChange={updateHue}/> 
             </label>
             <input type="submit" value="Submit"/>
+            <h4>Configs History</h4>
+            <h6> The low is {this.state.low}. The high is {this.state.high}. The hue is {this.state.hue}.</h6>
+
             </form>
 		</div>
 		);
 	}
 }
 
-export default Graph;
+export default Config;
+
+
